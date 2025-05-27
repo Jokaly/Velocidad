@@ -2,68 +2,30 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Registro de Multas</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Login de Multas</title>
+  <link rel="stylesheet" href="styleLogin.css">
 </head>
 <body>
-  <h1>Listado de Multas Registradas (< 150 km/h)</h1>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Auto</th>
-        <th>Velocidad</th>
-        <th>Fecha</th>
-      </tr>
-    </thead>
-    <tbody id="tablaMultas">
-      <!-- Aquí se insertarán las multas dinámicamente -->
-    </tbody>
-  </table>
-
-  <!-- Firebase SDKs (versión 8 para compatibilidad clásica) -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <div class="login-container">
+    <h2>Iniciar sesión</h2>
+    <input type="email" id="email" placeholder="Correo electrónico">
+    <input type="password" id="password" placeholder="Contraseña">
+    <button onclick="iniciarSesion()">Entrar</button>
+    <div class="error" id="mensajeError"></div>
+  </div>
 
   <script>
-    // 🔐 CONFIGURA TUS CREDENCIALES DE FIREBASE AQUÍ
-    const firebaseConfig = {
-      apiKey: "AIzaSyAd72s0xwscRIZWaw4WVrI2H2WWjTZJTik",
-      authDomain: "velocimetro-d8d97.firebaseapp.com",
-      databaseURL: "https://velocimetro-d8d97-default-rtdb.firebaseio.com",
-      projectId: "velocimetro-d8d97",
-      storageBucket: "velocimetro-d8d97.firebasestorage.app",
-      messagingSenderId: "603160976332",
-      appId: "1:603160976332:web:8425fc7bc9578c695e5b69"
-    };
+    function iniciarSesion() {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const mensaje = document.getElementById("mensajeError");
 
-    // 🚀 Inicializar Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-
-    // 🧾 Referencia a las multas
-    const tabla = document.getElementById("tablaMultas");
-    const multasRef = db.ref("Multa");
-
-    // 📥 Escuchar cambios y cargar datos
-    multasRef.on("value", (snapshot) => {
-      tabla.innerHTML = ""; // Limpiar antes de actualizar
-
-      snapshot.forEach((childSnapshot) => {
-        const multa = childSnapshot.val();
-
-        // ✅ Mostrar solo si la velocidad es menor a 150
-        if (parseFloat(multa.velocidad) < 150) {
-          const fila = document.createElement("tr");
-          fila.innerHTML = `
-            <td>${multa.auto}</td>
-            <td>${multa.velocidad} km/h</td>
-            <td>${multa.fecha}</td>
-          `;
-          tabla.appendChild(fila);
-        }
-      });
-    });
+      if (email === "edu.pantoja1210@gmail.com" && password === "1234") {
+        window.location.href = "index.html";
+      } else {
+        mensaje.textContent = "Correo o contraseña incorrectos.";
+      }
+    }
   </script>
 </body>
 </html>
